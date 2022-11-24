@@ -1,0 +1,10 @@
+BEGIN
+{
+    printf("Tracing thread related stuff... Possibly need something like $ sudo kill -2 $(pgrep bpftrace) to end...\n");
+}
+
+// user stack for pthread_create
+uprobe:/lib/x86_64-linux-gnu/libc.so.6:pthread_create
+{
+    @[ustack]=count();
+}
