@@ -1,0 +1,18 @@
+#!/usr/bin/env bpftrace
+/*
+ * thread related stuff
+ *   - user stack for pthread_create
+ *
+ * Run with e.g.:
+ *   $ sudo ./thread.bt -c greeter_async_server
+ */
+
+BEGIN
+{
+    printf("Tracing thread related stuff... Run $ sudo kill -2 $(pgrep bpftrace) to end...\n");
+}
+
+uprobe:/lib/x86_64-linux-gnu/libc.so.6:pthread_create
+{
+    @[ustack]=count();
+}
