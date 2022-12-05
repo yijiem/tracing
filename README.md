@@ -8,6 +8,6 @@
 
    - print the `/proc/self/maps` as provided by [util.h](util.h) at the start of the tracee program
    - calculate the relative offset of the instruction in the .text section by doing `<instruction address> - <module load address>`
-   - use something like `addr2line -e <binary> -j .text -f -C <offset>` to figure out the symbol
+   - use something like `addr2line -a -e <binary> -j .text -f -C <offset>` to figure out the symbol
 
-   But currently the resulted symbol does not look correct...
+   UPDATE: this seems to work now, an automated script should come next.
