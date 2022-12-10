@@ -8,5 +8,5 @@ BEGIN
 tracepoint:syscalls:sys_enter_epoll_wait
 /pid == cpid/
 {
-    @[ustack(perf)] = count();
+    @[ustack()] = count();
 }
