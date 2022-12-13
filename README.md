@@ -10,4 +10,4 @@
    - calculate the relative file offset of the instruction by doing `<instruction address> - <module load address>`
    - use something like `addr2line -a -e <binary> -f -C <offset>` to figure out the symbol
 
-   [symbolicator.py](symbolicator.py) has basic support for this, it still has some issues though.
+   [symbolizer.py](symbolizer.py) has basic support for this, it still has some issues though.
