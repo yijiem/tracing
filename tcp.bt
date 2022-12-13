@@ -1,0 +1,24 @@
+#!/usr/bin/env bpftrace
+
+BEGIN
+{
+    printf("Tracing tcp related stuff...");
+}
+
+tracepoint:syscalls:sys_enter_listen
+/pid == cpid/
+{
+    @[ustack()] = count();
+}
+
+tracepoint:syscalls:sys_enter_accept4
+/pid == cpid/
+{
+    @[ustack()] = count();
+}
+
+tracepoint:syscalls:sys_enter_connect
+/pid == cpid/
+{
+    @[ustack()] = count();
+}

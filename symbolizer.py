@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 import subprocess
 import sys
 
@@ -12,9 +13,11 @@ end_mmap = dict()
 def Main(args):
     for line in sys.stdin:
         if "r-xp" in line:
-            # build memory map <module load address> -> <module filepath>
-            base_mmap[line.split()[0].split("-")[0]] = line.split()[-1]
-            end_mmap[line.split()[0].split("-")[1]] = line.split()[-1]
+            # module such as [vdso] needs to be filtered
+            if os.path.exists(line.split()[-1]):
+                # build memory map <module load address> -> <module filepath>
+                base_mmap[line.split()[0].split("-")[0]] = line.split()[-1]
+                end_mmap[line.split()[0].split("-")[1]] = line.split()[-1]
             print(line, end="")
         elif len(line.split()) == 1:
             # might be our single address line
