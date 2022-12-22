@@ -32,7 +32,7 @@ def Main(args):
                 if v1[1] == v2[1]:
                     offset = int(addr, 16) - int(v1[0], 16)
                     cp = subprocess.run(
-                        "addr2line -a -i -e %s -f -C -p %s"
+                        "addr2line -i -e %s -f -C -p %s"
                         % (v1[1], hex(offset)),
                         shell=True,
                         check=True,

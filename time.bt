@@ -1,0 +1,33 @@
+#!/usr/bin/env bpftrace
+/*
+ * Need to replace clock_gettime call to direct syscall, e.g.
+ *
+ *     - clock_gettime(clockid_for_gpr_clock[clock_type], &now);
+ *     + syscall(SYS_clock_gettime, clockid_for_gpr_clock[clock_type], &now);
+ *
+ * Haven't figured out why though...
+ */
+
+BEGIN
+{
+    printf("Tracing time related stuff...\n");
+    @realtime = 0;
+    @monotonic = 0;
+}
+
+tracepoint:syscalls:sys_enter_clock_gettime
+/pid == cpid/
+{
+    if (args->which_clock == 0) {
+        @realtime++;
+    } else if (args->which_clock == 1) {
+        @monotonic++;
+    }
+    @[ustack()] = count();
+}
+
+END
+{
+    printf("CLOCK_REALTIME used: %d times\n", @realtime);
+    printf("CLOCK_MONOTONIC used: %d times\n", @monotonic);
+}
