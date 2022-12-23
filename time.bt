@@ -23,7 +23,7 @@ tracepoint:syscalls:sys_enter_clock_gettime
     } else if (args->which_clock == 1) {
         @monotonic++;
     }
-    @[ustack()] = count();
+    @[ustack(), args->which_clock] = count();
 }
 
 END
