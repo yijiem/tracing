@@ -1,4 +1,4 @@
-# grpc-bpftrace
+# tracing
 
 ## Issues:
 
